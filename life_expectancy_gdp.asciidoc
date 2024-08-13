@@ -1,0 +1,1592 @@
++*In[43]:*+
+[source, ipython3]
+----
+print('1. EXPLORE AND ANALYZE THE DATA.\n We are exploring a dataset of 6 countries, with 2 important variables being measured every year from 2000 to 2015: \n Life expectancy at Birth as well as GDP. The goal of this study is to learn as much as possible from this data. \n As we can see, very economically and ethnically different countries are being compared, like Zimbabwe and USA')
+----
+
+
++*Out[43]:*+
+----
+1. EXPLORE AND ANALYZE THE DATA.
+ We are exploring a dataset of 6 countries, with 2 important variables being measured every year from 2000 to 2015: 
+ Life expectancy at Birth as well as GDP. The goal of this study is to learn as much as possible from this data. 
+ As we can see, very economically and ethnically different countries are being compared, like Zimbabwe and USA
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[1]:*+
+[source, ipython3]
+----
+import matplotlib.pyplot as plt
+import seaborn as sns
+import pandas as pd
+import numpy as np
+%matplotlib inline
+
+#loading the csv into pandas format
+l_e = pd.read_csv("all_data.csv")
+
+#for convenience we rename the long column name to an abbreviation
+l_e.rename(columns = {"Life expectancy at birth (years)": "LEAB"},inplace = True)
+
+
+print(l_e)
+----
+
+
++*Out[1]:*+
+----
+     Country  Year  LEAB           GDP
+0      Chile  2000  77.3  7.786093e+10
+1      Chile  2001  77.3  7.097992e+10
+2      Chile  2002  77.8  6.973681e+10
+3      Chile  2003  77.9  7.564346e+10
+4      Chile  2004  78.0  9.921039e+10
+..       ...   ...   ...           ...
+91  Zimbabwe  2011  54.9  1.209845e+10
+92  Zimbabwe  2012  56.6  1.424249e+10
+93  Zimbabwe  2013  58.0  1.545177e+10
+94  Zimbabwe  2014  59.2  1.589105e+10
+95  Zimbabwe  2015  60.7  1.630467e+10
+
+[96 rows x 4 columns]
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[229]:*+
+[source, ipython3]
+----
+#checking, how many countries is the data about
+
+print(l_e.Country.unique())
+----
+
+
++*Out[229]:*+
+----
+['Chile' 'China' 'Germany' 'Mexico' 'United States of America' 'Zimbabwe']
+----
+
+
++*In[3]:*+
+[source, ipython3]
+----
+#if we need to explore countries individually, we can do it by defining individual dataframes
+
+l_e_chile = l_e[l_e.Country == "Chile"]
+l_e_china = l_e[l_e.Country == "China"]
+l_e_germany = l_e[l_e.Country == "Germany"]
+l_e_mexico = l_e[l_e.Country == "Mexico"]
+l_e_USA = l_e[l_e.Country == "United States of America"]
+l_e_zimbabwe = l_e[l_e.Country == "Zimbabwe"]
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[233]:*+
+[source, ipython3]
+----
+print(l_e_chile)
+
+----
+
+
++*Out[233]:*+
+----
+   Country  Year  Life expectancy at birth (years)           GDP
+0    Chile  2000                              77.3  7.786093e+10
+1    Chile  2001                              77.3  7.097992e+10
+2    Chile  2002                              77.8  6.973681e+10
+3    Chile  2003                              77.9  7.564346e+10
+4    Chile  2004                              78.0  9.921039e+10
+5    Chile  2005                              78.4  1.229650e+11
+6    Chile  2006                              78.9  1.547880e+11
+7    Chile  2007                              78.9  1.736060e+11
+8    Chile  2008                              79.6  1.796380e+11
+9    Chile  2009                              79.3  1.723890e+11
+10   Chile  2010                              79.1  2.185380e+11
+11   Chile  2011                              79.8  2.522520e+11
+12   Chile  2012                              79.9  2.671220e+11
+13   Chile  2013                              80.1  2.783840e+11
+14   Chile  2014                              80.3  2.609900e+11
+15   Chile  2015                              80.5  2.425180e+11
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#DISTRIBUTIONS
+#HISTPLOTS
+----
+
+
++*In[15]:*+
+[source, ipython3]
+----
+# The distribution for GDP is very right skewed
+# The majority of values are on the lower end for GDP. It is not because most countries on the list have very low GDP
+# but USA has a big difference to the rest
+
+sns.histplot(data = l_e.GDP, stat = "percent", kde=True)
+plt.show()
+
+
+----
+
+
++*Out[15]:*+
+----
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+
+![png](output_20_1.png)
+----
+
+
++*In[25]:*+
+[source, ipython3]
+----
+#GDP Distribution - USA Data is an outlier, the relatively higher numbers for China and Germany aren't enough to prevent the right skew 
+sns.displot(x = "GDP", data = l_e, hue ='Country', multiple="stack",col_wrap=3, col = 'Country', bins = 25)
+
+plt.legend()
+#plt.ylabel("GDP")
+#plt.xlabel("Year")
+plt.show()
+----
+
+
++*Out[25]:*+
+----
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+
+![png](output_21_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[17]:*+
+[source, ipython3]
+----
+#different from GDP, LEAB distribution is left skewed. Majority of observations have a higher LEAB, so on total the variable grew over time
+
+sns.histplot(l_e["LEAB"], stat = "percent", kde=True)
+plt.show()
+
+
+----
+
+
++*Out[17]:*+
+----
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+
+![png](output_26_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[19]:*+
+[source, ipython3]
+----
+#LEAB Distributions for each country. Only Zimbabwe is on the left side,the majority of the values overweight it though, 
+#so the left skew stands
+
+sns.displot(x = "LEAB", data = l_e, hue ='Country', multiple="stack",col_wrap=3, col = 'Country')
+plt.legend()
+#plt.ylabel("GDP")
+#plt.xlabel("Year")
+plt.show()
+----
+
+
++*Out[19]:*+
+----
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+
+![png](output_29_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#RELATIONAL CHARTS
+#1. LINE CHARTS
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#Plotting to compare the Life expectancy of birth for all 6 countries over the years, using relplot (line)
+#Findings: it did rise for all 6 parties. It rose the most for Zimbabwe, but still stayed way lower than the rest
+----
+
+
++*In[37]:*+
+[source, ipython3]
+----
+sns.relplot(x = "Year", y = "Life expectancy at birth (years)", data = l_e, hue = "Country", kind="line")
+
+plt.ylabel("Life expectancy at birth (years)")
+plt.xlabel("Year")
+plt.show()
+----
+
+
++*Out[37]:*+
+----
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+
+![png](output_35_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#Plotting to compare the GDP for all 6 countries over the years, using relplot (line)
+#Findings: it did rise for 5 parties and stayed the same for Zimbabwe. For Chile and Mexico it rose insiginificantly
+# the biggest lunge was in China in 2006-2010. 
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[31]:*+
+[source, ipython3]
+----
+sns.relplot(x = ("Year"), y = ("GDP"), data = l_e, hue = ("Country"), kind="line")
+
+
+plt.ylabel("GDP")
+plt.xlabel("Year")
+plt.show()
+----
+
+
++*Out[31]:*+
+----
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1119: FutureWarning: use_inf_as_na option is deprecated and will be removed in a future version. Convert inf values to NaN before operating instead.
+  with pd.option_context('mode.use_inf_as_na', True):
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+/opt/anaconda3/lib/python3.11/site-packages/seaborn/_oldcore.py:1075: FutureWarning: When grouping with a length-1 list-like, you will need to pass a length-1 tuple to get_group in a future version of pandas. Pass `(name,)` instead of `name` to silence this warning.
+  data_subset = grouped_data.get_group(pd_key)
+
+![png](output_38_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#Scatterplots - HOW GDP AND LEAB ARE CONNECTED
+
+# some observations
+# Zimbabwe 0 change in GDP , but massive change in LEAB
+# China and USA had massive rises in GDP and moderate ones in LEAB
+# the highest LEAB is not in the countries with the highest GDP, but in Germany and Chile
+
+#the direct interrelatedness of two variables is to be questioned
+----
+
+
++*In[67]:*+
+[source, ipython3]
+----
+plt.figure(figsize=(8,6))
+sns.scatterplot(x=l_e.LEAB, y=l_e.GDP, hue=l_e.Country)
+plt.legend(loc='center left', bbox_to_anchor=(1, 0.5), ncol=1)
+plt.ylabel("GDP in Trillions of U.S. Dollars");
+----
+
+
++*Out[67]:*+
+----
+![png](output_43_0.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#CATEGORICAL: bar charts
+# first we take a look at the LEAB means comparison for all 6 countries. 
+# as expected the strongest numbers are at Chile and Germany
+----
+
+
++*In[61]:*+
+[source, ipython3]
+----
+means = l_e.groupby("Country").mean().reset_index()
+
+sns.catplot(x ="LEAB", y = "Country", data = means, kind = "bar")
+plt.show()
+----
+
+
++*Out[61]:*+
+----
+![png](output_46_0.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#the same exercise with GDP reveals the earlier found trend even more drastically. compared to USA Chile barely even rose in GDP
+----
+
+
++*In[317]:*+
+[source, ipython3]
+----
+sns.catplot(x ="GDP", y = "Country", data = l_e, kind = "bar")
+plt.show()
+----
+
+
++*Out[317]:*+
+----
+![png](output_48_0.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[81]:*+
+[source, ipython3]
+----
+#an attempt to plot both LEAB and GDP side to side
+
+plt.figure(figsize = (8,4))
+ax = plt.subplot(1,2,1)
+sns.barplot(x = "LEAB", y = "Country", data = l_e)
+plt.ylabel("")
+plt.yticks(rotation=45)
+plt.subplots_adjust(wspace = 0.6)
+ax = plt.subplot(1,2,2)
+sns.barplot(x = "GDP", y = "Country", data = l_e)
+plt.ylabel("")
+plt.yticks(rotation=45)
+#plt.subplots_adjust(left = 0.1)
+plt.legend()
+
+plt.show()
+----
+
+
++*Out[81]:*+
+----
+No artists with labels found to put in legend.  Note that artists whose label start with an underscore are ignored when legend() is called with no argument.
+
+![png](output_50_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[165]:*+
+[source, ipython3]
+----
+#the comparison of Zimbabwe to USA: GDP vs LEAB
+#the line of relationship betwee GDP and LEAB looks similar for both countries, but US GDP is counted in trillions, vs billions in Z.
+print(l_e_USA.GDP.max())
+print(l_e_USA.GDP.min())
+
+print(l_e_zimbabwe.GDP.max())
+print(l_e_zimbabwe.GDP.min())
+----
+
+
++*Out[165]:*+
+----
+18100000000000.0
+10300000000000.0
+16304667807.0
+4415702800.0
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#on an individual basis the case of Zimbabwe might indicate a need for further research into relationship between 
+#GDP and LEAB. This does not seem evident in comparison with european countries, but the trend is there,
+#although the distribution skew is an evidence of historically higher stats of low GDP in the country 
+----
+
+
++*In[163]:*+
+[source, ipython3]
+----
+fig, axs = plt.subplots(2,2, figsize=(14,8))
+axs[0,0].scatter(l_e_zimbabwe.GDP, l_e_zimbabwe.LEAB)
+axs[0,0].set_xlabel("GDP")
+axs[0,0].set_ylabel("LEAB")
+axs[0,1].hist(l_e_zimbabwe.GDP)
+
+axs[1,0].scatter(l_e_USA.GDP, l_e_USA.LEAB, color = "magenta")
+axs[1,0].set_xlabel("GDP")
+axs[1,0].set_ylabel("LEAB")
+axs[1,1].hist(l_e_USA.GDP, color = "magenta")
+
+----
+
+
++*Out[163]:*+
+----(array([3., 1., 1., 1., 1., 3., 2., 1., 1., 2.]),
+ array([1.030e+13, 1.108e+13, 1.186e+13, 1.264e+13, 1.342e+13, 1.420e+13,
+        1.498e+13, 1.576e+13, 1.654e+13, 1.732e+13, 1.810e+13]),
+ <BarContainer object of 10 artists>)
+![png](output_57_1.png)
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#CONCLUSIONS
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#1. GDP over the years:
+
+#rose for 5 parties and stayed the same for Zimbabwe. For Chile and Mexico it rose insiginificantly
+# the biggest lunge was in China in 2006-2010. 
+
+#2. LEAB over the years
+#rose for all 6 parties. It rose the most for Zimbabwe, but still stayed way lower than the rest.
+#interestingly the highest LEAB values were registered not in China and US, but Chile and Germany (see 4.)
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#3.DISTRIBUTIONS
+#a. GDP
+# The distribution for GDP is very right skewed
+# The majority of values are on the lower end, not because most countries have very low GDP, but because USA has a big difference to the rest. 
+# it might be more productive to exclude such outlier-countries as US from further studies with a little number of contestants.
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#DISTRIBUTIONS
+#b. LEAB
+#different from GDP, LEAB distribution is left skewed. Majority of observations have a higher LEAB,
+#Only Zimbabwe has low LEAB values, despite a significant growth over 15 years.
+#because of the choice of 6 countries, Zimbabwe numbers did not affect the distribution 
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+#4. HOW AND WHETHER GDP AND LEAB ARE CONNECTED - 
+
+# some observations:
+# Zimbabwe: 0 change in GDP , but massive change in LEAB
+# China and USA had massive rises in GDP and moderate ones in LEAB
+# the highest LEAB is not in the countries with the highest GDP, but in Germany and Chile
+
+#the direct interrelatedness of two variables is to be questioned
+# more research among countries with similar numbers in GDP and LEAB is needed.
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[71]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
